@@ -1,0 +1,130 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Works with an empty array
+      id: works-with-an-empty-array
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Works with an empty array
+        setup-command: ''
+        command: "./gradlew test --tests assignment.MergeSortTest.testEmptyArray"
+        timeout: 1
+        max-score: 1
+    - name: Works with an array with 1 element
+      id: works-with-an-array-with-1-element
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Works with an array with 1 element
+        setup-command: ''
+        command: "./gradlew test --tests assignment.MergeSortTest.testSingleElement"
+        timeout: 1
+        max-score: 1
+    - name: Works with an already sorted array
+      id: works-with-an-already-sorted-array
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Works with an already sorted array
+        setup-command: ''
+        command: "./gradlew test --tests assignment.MergeSortTest.testAlreadySorted"
+        timeout: 1
+        max-score: 1
+    - name: Works with an array sorted in descending order
+      id: works-with-an-array-sorted-in-descending-order
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Works with an array sorted in descending order
+        setup-command: ''
+        command: "./gradlew test --tests assignment.MergeSortTest.testReverseSorted"
+        timeout: 1
+        max-score: 1
+    - name: Works with an unsorted array
+      id: works-with-an-unsorted-array
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Works with an unsorted array
+        setup-command: ''
+        command: "./gradlew test --tests assignment.MergeSortTest.testRandomUnsorted"
+        timeout: 1
+        max-score: 1
+    - name: Works when array contains duplicate values
+      id: works-when-array-contains-duplicate-values
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Works when array contains duplicate values
+        setup-command: ''
+        command: "./gradlew test --tests assignment.MergeSortTest.testWithDuplicates"
+        timeout: 1
+        max-score: 1
+    - name: Works with negative numbers
+      id: works-with-negative-numbers
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Works with negative numbers
+        setup-command: ''
+        command: "./gradlew test --tests assignment.MergeSortTest.testWithNegativeNumbers"
+        timeout: 1
+        max-score: 1
+    - name: Works with an array with 2 elements
+      id: works-with-an-array-with-2-elements
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Works with an array with 2 elements
+        setup-command: ''
+        command: "./gradlew test --tests assignment.MergeSortTest.testTwoElements"
+        timeout: 1
+        max-score: 1
+    - name: Works with an array of all the same value
+      id: works-with-an-array-of-all-the-same-value
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Works with an array of all the same value
+        setup-command: ''
+        command: "./gradlew test --tests assignment.MergeSortTest.testAllSameElements"
+        timeout: 1
+        max-score: 1
+    - name: Works with an array with 1000 elements
+      id: works-with-an-array-with-1000-elements
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Works with an array with 1000 elements
+        setup-command: ''
+        command: "./gradlew test --tests assignment.MergeSortTest.testLargeArray"
+        timeout: 1
+        max-score: 1
+    - name: Works with an array with multiple duplicates
+      id: works-with-an-array-with-multiple-duplicates
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Works with an array with multiple duplicates
+        setup-command: ''
+        command: "./gradlew test --tests assignment.MergeSortTest.testStability"
+        timeout: 1
+        max-score: 1
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        WORKS-WITH-AN-EMPTY-ARRAY_RESULTS: "${{steps.works-with-an-empty-array.outputs.result}}"
+        WORKS-WITH-AN-ARRAY-WITH-1-ELEMENT_RESULTS: "${{steps.works-with-an-array-with-1-element.outputs.result}}"
+        WORKS-WITH-AN-ALREADY-SORTED-ARRAY_RESULTS: "${{steps.works-with-an-already-sorted-array.outputs.result}}"
+        WORKS-WITH-AN-ARRAY-SORTED-IN-DESCENDING-ORDER_RESULTS: "${{steps.works-with-an-array-sorted-in-descending-order.outputs.result}}"
+        WORKS-WITH-AN-UNSORTED-ARRAY_RESULTS: "${{steps.works-with-an-unsorted-array.outputs.result}}"
+        WORKS-WHEN-ARRAY-CONTAINS-DUPLICATE-VALUES_RESULTS: "${{steps.works-when-array-contains-duplicate-values.outputs.result}}"
+        WORKS-WITH-NEGATIVE-NUMBERS_RESULTS: "${{steps.works-with-negative-numbers.outputs.result}}"
+        WORKS-WITH-AN-ARRAY-WITH-2-ELEMENTS_RESULTS: "${{steps.works-with-an-array-with-2-elements.outputs.result}}"
+        WORKS-WITH-AN-ARRAY-OF-ALL-THE-SAME-VALUE_RESULTS: "${{steps.works-with-an-array-of-all-the-same-value.outputs.result}}"
+        WORKS-WITH-AN-ARRAY-WITH-1000-ELEMENTS_RESULTS: "${{steps.works-with-an-array-with-1000-elements.outputs.result}}"
+        WORKS-WITH-AN-ARRAY-WITH-MULTIPLE-DUPLICATES_RESULTS: "${{steps.works-with-an-array-with-multiple-duplicates.outputs.result}}"
+      with:
+        runners: works-with-an-empty-array,works-with-an-array-with-1-element,works-with-an-already-sorted-array,works-with-an-array-sorted-in-descending-order,works-with-an-unsorted-array,works-when-array-contains-duplicate-values,works-with-negative-numbers,works-with-an-array-with-2-elements,works-with-an-array-of-all-the-same-value,works-with-an-array-with-1000-elements,works-with-an-array-with-multiple-duplicates
